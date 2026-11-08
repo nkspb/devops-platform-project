@@ -1,6 +1,12 @@
 # Environment variables & secrets
 .env
 .env.*
+!.env.example
+
+# Kubernetes
+kubeconfig
+*.kubeconfig
+cosign.key
 
 # Python
 __pycache__/
@@ -10,6 +16,10 @@ __pycache__/
 venv/
 env/
 .pytest_cache/
+
+# Ansible
+*.retry
+.ansible/
 
 # Terraform
 **/.terraform/*
