@@ -1,0 +1,44 @@
+---
+# tasks file for docker
+- name: Create docker GPG key directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+
+- name: Download Docker GPG key
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /etc/apt/keyrings/docker.asc
+    mode: "0644"
+
+- name: Get package architecture
+  ansible.builtin.command: dpkg --print-architecture
+  register: docker_architecture
+  changed_when: false
+
+- name: Add docker resources to apt sources
+  ansible.builtin.apt_repository:
+    repo: "deb [arch={{ docker_architecture.stdout }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: present
+    filename: docker
+    update_cache: true
+
+- name: Install docker-ce and docker-compose
+  ansible.builtin.package:
+    name:
+      - docker-ce
+      - docker-compose-plugin
+    state: present
+
+- name: Ensure docker service is enabled and started
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Add ubuntu user to docker group
+  ansible.builtin.user:
+    name: nkom
+    groups: docker
+    append: true
