@@ -1,2 +1,13 @@
 ---
 # vars file for base
+required_packages:
+  - curl
+  - git
+  - jq
+  - vim
+  - htop
+  - unzip
+  - chrony
+  - ca-certificates
+
+timezone: "UTC"

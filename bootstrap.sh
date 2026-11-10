@@ -9,3 +9,6 @@ fi
 
 # Install Ansible collections
 ansible-galaxy collection install -r infra/ansible/requirements.yml
+
+# Run site.yml asking for sudo password
+ansible-playbook infra/ansible/site.yml --ask-become-pass

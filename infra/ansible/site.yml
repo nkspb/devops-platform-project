@@ -1,0 +1,7 @@
+---
+- name: Apply base configuration
+  hosts: localhost
+  become: true
+
+  roles:
+    - base

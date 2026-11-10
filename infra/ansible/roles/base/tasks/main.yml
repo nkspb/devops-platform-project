@@ -1,2 +1,21 @@
 ---
 # tasks file for base
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Install required packages
+  ansible.builtin.apt:
+    name: "{{ required_packages }}"
+    state: present
+
+- name: Set timezone
+  community.general.timezone:
+    name: "{{ timezone }}"
+
+- name: Ensure chrony service is enabled and started
+  ansible.builtin.service:
+    name: chrony
+    state: started
+    enabled: true
